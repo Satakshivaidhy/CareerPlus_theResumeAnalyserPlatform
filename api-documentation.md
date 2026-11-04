@@ -1,6 +1,6 @@
-# 📡 PrepOrbit — API Documentation
+# 📡 PrepMatrix — API Documentation
 
-Welcome to the **PrepOrbit** API documentation. This document details all available RESTful API endpoints, request payload schemas, headers, authentication mechanisms, and sample responses.
+Welcome to the **PrepMatrix** API documentation. This document details all available RESTful API endpoints, request payload schemas, headers, authentication mechanisms, and sample responses.
 
 ---
 
@@ -160,7 +160,7 @@ Alternatively, tokens are automatically read from HTTP-Only Cookies named `Oreo`
         "duration": "2022 - Present"
       }
     ],
-    "projects": ["PrepOrbit Platform", "E-Commerce Suite"]
+    "projects": ["PrepMatrix Platform", "E-Commerce Suite"]
   },
   "matchResult": {
     "match_score": 85,

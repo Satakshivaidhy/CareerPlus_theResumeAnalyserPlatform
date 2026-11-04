@@ -166,15 +166,13 @@ const Register = () => {
         <div className="glass-panel rounded-3xl p-6 sm:p-10 border border-white/10 shadow-2xl w-full">
 
           <div className="text-center mb-8">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 via-violet-600 to-cyan-500 flex items-center justify-center text-white shadow-xl shadow-indigo-500/30 mx-auto mb-3">
-              <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(-30 12 12)" stroke="currentColor" strokeWidth="1.75" opacity="0.85" />
-                <circle cx="12" cy="12" r="3" fill="currentColor" />
-                <circle cx="18" cy="8" r="1.5" fill="#38bdf8" />
-              </svg>
-            </div>
+            <img
+              src="/logo_transparent.png"
+              alt="PrepMatrix Logo"
+              className="w-14 h-14 rounded-2xl object-contain shadow-xl shadow-indigo-500/30 mx-auto mb-3"
+            />
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Create Account</h1>
-            <p className="text-xs sm:text-sm text-gray-400 mt-1">Get started with your free personalized PrepOrbit account</p>
+            <p className="text-xs sm:text-sm text-gray-400 mt-1">Get started with your free personalized PrepMatrix account</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">

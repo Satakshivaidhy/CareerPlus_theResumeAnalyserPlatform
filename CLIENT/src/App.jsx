@@ -1,5 +1,5 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Home from './pages/Home';
 import Analyze from './pages/Analyze';
 import Interview from './pages/Interview';
@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <BrowserRouter>
+      <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />

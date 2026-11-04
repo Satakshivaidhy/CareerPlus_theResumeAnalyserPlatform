@@ -41,7 +41,7 @@ app.use("/api/ai", aiRouter);
 app.use("/api/feedback", feedbackRouter);
 
 app.get("/", (req, res) => {
-  res.json({ message: "PrepOrbit API is running...", status: "online" });
+  res.json({ message: "PrepMatrix API is running...", status: "online" });
 });
 
 // 404 Handler
@@ -54,12 +54,28 @@ app.use((req, res) => {
 
 // Global Error Handler
 app.use((err, req, res, _next) => {
-  console.error("Global Error Handler:", err.message || err);
-  const status = err.statusCode || 500;
+  let status = err.statusCode || 500;
+  let message = err.message || "Internal Server Error";
+
+  if (err.name === "TokenExpiredError" || message === "jwt expired" || message === "Session Expired") {
+    status = 401;
+    message = "Session Expired";
+  }
+
+  console.error("Global Error Handler:", message);
   res.status(status).json({
     success: false,
-    message: err.message || "Internal Server Error",
+    message,
   });
+});
+
+// Process-level crash prevention guards
+process.on("uncaughtException", (err) => {
+  console.error("⚠️ Uncaught Exception:", err.message || err);
+});
+
+process.on("unhandledRejection", (reason) => {
+  console.error("⚠️ Unhandled Rejection:", reason?.message || reason);
 });
 
 const PORT = process.env.PORT || 4500;

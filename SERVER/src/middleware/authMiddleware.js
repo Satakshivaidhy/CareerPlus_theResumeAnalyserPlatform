@@ -4,7 +4,13 @@ import User from "../models/user.model.js";
 
 export const AuthProtect = async (req, res, next) => {
   try {
-    const token = req.cookies.Oreo;
+    const authHeader = req.headers.authorization;
+    const bearerToken =
+      authHeader && authHeader.startsWith("Bearer ")
+        ? authHeader.split(" ")[1]
+        : null;
+    const token = req.cookies?.Oreo || bearerToken;
+
     if (!token) {
       const error = new Error("Session Expired");
       error.statusCode = 401;
@@ -30,20 +36,28 @@ export const AuthProtect = async (req, res, next) => {
     next();
   } catch (error) {
     console.log("Error In AuthProtect Middleware: ", error.message);
+    if (error.name === "TokenExpiredError" || error.name === "JsonWebTokenError") {
+      error.statusCode = 401;
+      error.message = "Session Expired";
+    }
     next(error);
   }
 };
 
 export const OTPAuthProtect = async (req, res, next) => {
   try {
-    const token = req.cookies.kitkat;
+    const authHeader = req.headers.authorization;
+    const bearerToken =
+      authHeader && authHeader.startsWith("Bearer ")
+        ? authHeader.split(" ")[1]
+        : null;
+    const token = req.cookies?.kitkat || bearerToken;
+
     if (!token) {
       const error = new Error("Session Expired");
       error.statusCode = 401;
       return next(error);
     }
-
-    // console.log("Token From MiddleWare : ", token);
 
     const decode = await jwt.verify(token, process.env.JWT_SECRET);
     if (!decode) {
@@ -51,8 +65,6 @@ export const OTPAuthProtect = async (req, res, next) => {
       error.statusCode = 401;
       return next(error);
     }
-
-    // console.log("Decode:", decode);
 
     let verifiedUser = null;
     if (mongoose.connection.readyState === 1) {
@@ -66,7 +78,11 @@ export const OTPAuthProtect = async (req, res, next) => {
     next();
 
   } catch (error) {
-    console.log(error.message);
+    console.log("Error In OTPAuthProtect Middleware: ", error.message);
+    if (error.name === "TokenExpiredError" || error.name === "JsonWebTokenError") {
+      error.statusCode = 401;
+      error.message = "Session Expired";
+    }
     next(error);
   }
 };

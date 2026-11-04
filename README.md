@@ -1,8 +1,8 @@
-# 🪐 PrepOrbit — Next-Gen AI Career Accelerator & Mock Interview Platform
+# 🪐 PrepMatrix — Next-Gen AI Career Accelerator & Mock Interview Platform
 
 <div align="center">
 
-![PrepOrbit Banner](https://img.shields.io/badge/PrepOrbit-AI%20Career%20Accelerator-6366f1?style=for-the-badge&logo=rocket)
+![PrepMatrix Banner](https://img.shields.io/badge/PrepMatrix-AI%20Career%20Accelerator-6366f1?style=for-the-badge&logo=rocket)
 ![React 19](https://img.shields.io/badge/React-19.2-61dafb?style=for-the-badge&logo=react)
 ![Vite 8](https://img.shields.io/badge/Vite-8.2-646cff?style=for-the-badge&logo=vite)
 ![Tailwind CSS v4](https://img.shields.io/badge/Tailwind-v4.3-38bdf8?style=for-the-badge&logo=tailwindcss)
@@ -17,7 +17,7 @@
 
 ## 📌 Executive Summary
 
-**PrepOrbit** is a full-stack, enterprise-grade AI career platform designed to accelerate candidate job readiness. Built with a modern **Deep Obsidian** glassmorphism design system, PrepOrbit integrates Google Gemini AI to offer real-time ATS resume alignment, intelligent job description (JD) keyword gap analysis, AI bullet point re-engineering, and interactive roleplay mock interviews with **Coach Ava** featuring speech-to-text, text-to-speech, and vision-AI proctoring (eye-tracking, multi-person detection, and mobile phone detection).
+**PrepMatrix** is a full-stack, enterprise-grade AI career platform designed to accelerate candidate job readiness. Built with a modern **Deep Obsidian** glassmorphism design system, PrepMatrix integrates Google Gemini AI to offer real-time ATS resume alignment, intelligent job description (JD) keyword gap analysis, AI bullet point re-engineering, and interactive roleplay mock interviews with **Coach Ava** featuring speech-to-text, text-to-speech, and vision-AI proctoring (eye-tracking, multi-person detection, and mobile phone detection).
 
 ---
 
@@ -27,7 +27,7 @@
 
 ```
                        +-------------------------------------------------------+
-                       |                    PREPORBIT CLIENT                   |
+                       |                    PREPMATRIX CLIENT                   |
                        |  (React 19 + Vite + Tailwind v4 + Speech/Vision AI)   |
                        +---------------------------+---------------------------+
                                                    |
@@ -224,7 +224,7 @@ The frontend application will open at `http://localhost:5173`.
 
 ## 🎨 Design System
 
-PrepOrbit utilizes an Obsidian Dark Mode aesthetic (`#030014`) with glassmorphic cards (`backdrop-filter: blur(18px)`), vibrant electric purple accents (`#a855f7`), cyan highlights (`#06b6d4`), and modern typography powered by **Outfit** and **Plus Jakarta Sans** Google Fonts.
+PrepMatrix utilizes an Obsidian Dark Mode aesthetic (`#030014`) with glassmorphic cards (`backdrop-filter: blur(18px)`), vibrant electric purple accents (`#a855f7`), cyan highlights (`#06b6d4`), and modern typography powered by **Outfit** and **Plus Jakarta Sans** Google Fonts.
 
 ---
 

@@ -1,5 +1,4 @@
-import React from 'react';
-import { FiGithub, FiTwitter, FiLinkedin, FiMail } from 'react-icons/fi';
+import { FiGithub, FiTwitter, FiLinkedin } from 'react-icons/fi';
 
 const Footer = () => {
   return (
@@ -9,15 +8,13 @@ const Footer = () => {
           {/* Brand Info */}
           <div className="space-y-4 md:col-span-2">
             <div className="flex items-center gap-2">
-              <div className="relative w-7 h-7 rounded-lg bg-gradient-to-tr from-indigo-600 via-violet-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/25">
-                <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(-30 12 12)" stroke="currentColor" strokeWidth="1.75" opacity="0.85" />
-                  <circle cx="12" cy="12" r="3" fill="currentColor" />
-                  <circle cx="18" cy="8" r="1.5" fill="#38bdf8" />
-                </svg>
-              </div>
+              <img
+                src="/logo_transparent.png"
+                alt="PrepMatrix Logo"
+                className="w-7 h-7 rounded-lg object-contain shadow-md shadow-indigo-500/25"
+              />
               <span className="font-extrabold text-lg text-white">
-                Prep<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Orbit</span>
+                Prep<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Matrix</span>
               </span>
             </div>
             <p className="text-gray-400 text-sm max-w-sm leading-relaxed">
@@ -58,7 +55,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
-          <span>&copy; {new Date().getFullYear()} PrepOrbit. All rights reserved.</span>
+          <span>&copy; {new Date().getFullYear()} PrepMatrix. All rights reserved.</span>
           <div className="flex space-x-6">
             <a href="#" className="hover:text-gray-300">Privacy Policy</a>
             <a href="#" className="hover:text-gray-300">Terms of Service</a>

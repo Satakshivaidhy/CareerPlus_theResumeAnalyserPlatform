@@ -8,6 +8,8 @@
 @import "flyonui/variants.css";
 @source "../node_modules/flyonui/flyonui.js";
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));
+
 @theme {
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
@@ -29,7 +31,6 @@
   --animate-border-glow: border-glow 4s linear infinite;
 
   @keyframes gradient-shift {
-
     0%,
     100% {
       background-position: 0% 50%;
@@ -41,7 +42,6 @@
   }
 
   @keyframes pulse-glow {
-
     0%,
     100% {
       opacity: 0.6;
@@ -56,7 +56,6 @@
   }
 
   @keyframes float {
-
     0%,
     100% {
       transform: translateY(0px);
@@ -78,7 +77,6 @@
   }
 
   @keyframes neon-pulse {
-
     0%,
     100% {
       box-shadow: 0 0 20px rgba(168, 85, 247, 0.35), inset 0 0 15px rgba(168, 85, 247, 0.15);
@@ -106,22 +104,57 @@
 
 /* Custom Base Layer & Custom Scrollbar */
 @layer base {
-
   :root,
-  [data-theme] {
+  [data-theme="dark"],
+  .dark {
     --color-base-100: #030014;
     --color-base-200: #0b0726;
     --color-base-300: #120c37;
     --color-base-content: #f3f4f6;
+    --app-bg: #030014;
+    --app-text: #f3f4f6;
+    --glass-bg: rgba(11, 7, 38, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.45);
+    --glass-hover-bg: rgba(18, 12, 55, 0.85);
+    --glass-hover-border: rgba(168, 85, 247, 0.45);
+    --glass-hover-shadow: 0 16px 45px -10px rgba(168, 85, 247, 0.35);
+    --card-bg: linear-gradient(145deg, rgba(15, 10, 48, 0.7), rgba(8, 5, 28, 0.8));
+    --card-border: rgba(168, 85, 247, 0.2);
+    --grid-line: rgba(255, 255, 255, 0.035);
+    --scrollbar-track: rgba(3, 0, 20, 0.9);
+    --scrollbar-border: #030014;
+  }
+
+  [data-theme="light"],
+  .light {
+    --color-base-100: #ffffff;
+    --color-base-200: #f8fafc;
+    --color-base-300: #f1f5f9;
+    --color-base-content: #0f172a;
+    --app-bg: #f8fafc;
+    --app-text: #0f172a;
+    --glass-bg: rgba(255, 255, 255, 0.88);
+    --glass-border: rgba(226, 232, 240, 0.9);
+    --glass-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.05);
+    --glass-hover-bg: rgba(255, 255, 255, 0.98);
+    --glass-hover-border: rgba(99, 102, 241, 0.4);
+    --glass-hover-shadow: 0 16px 35px -10px rgba(99, 102, 241, 0.15);
+    --card-bg: linear-gradient(145deg, #ffffff, #f8fafc);
+    --card-border: rgba(99, 102, 241, 0.2);
+    --grid-line: rgba(15, 23, 42, 0.04);
+    --scrollbar-track: #f1f5f9;
+    --scrollbar-border: #f8fafc;
   }
 
   html,
   body {
     font-family: var(--font-sans);
     scroll-behavior: smooth;
-    background-color: #030014;
-    color: #f3f4f6;
+    background-color: var(--app-bg);
+    color: var(--app-text);
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   h1,
@@ -131,20 +164,20 @@
     font-family: var(--font-display);
   }
 
-  /* Custom Modern Obsidian Scrollbar */
+  /* Custom Modern Obsidian / Light Scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: rgba(3, 0, 20, 0.9);
+    background: var(--scrollbar-track);
   }
 
   ::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, rgba(168, 85, 247, 0.6), rgba(99, 102, 241, 0.6));
     border-radius: 6px;
-    border: 2px solid #030014;
+    border: 2px solid var(--scrollbar-border);
   }
 
   ::-webkit-scrollbar-thumb:hover {
@@ -152,13 +185,14 @@
   }
 }
 
-/* Deep Obsidian Glass Cards */
+/* Glass Panels */
 .glass-panel {
-  background: rgba(11, 7, 38, 0.65);
+  background: var(--glass-bg);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .glass-panel-hover {
@@ -166,16 +200,16 @@
 }
 
 .glass-panel-hover:hover {
-  background: rgba(18, 12, 55, 0.85);
-  border-color: rgba(168, 85, 247, 0.45);
-  box-shadow: 0 16px 45px -10px rgba(168, 85, 247, 0.35);
+  background: var(--glass-hover-bg);
+  border-color: var(--glass-hover-border);
+  box-shadow: var(--glass-hover-shadow);
   transform: translateY(-4px);
 }
 
-/* Neon Glow Card Outline */
+/* Card Outline */
 .obsidian-card {
-  background: linear-gradient(145deg, rgba(15, 10, 48, 0.7), rgba(8, 5, 28, 0.8));
-  border: 1px solid rgba(168, 85, 247, 0.2);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   border-radius: 1.25rem;
   transition: all 0.3s ease;
 }
@@ -208,8 +242,8 @@
 /* Background Grid Overlay Pattern */
 .bg-grid-pattern {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 48px 48px;
   background-position: center;
 }
@@ -250,4 +284,82 @@
 
 .btn-shiny:hover::after {
   transform: rotate(30deg) translate(50%, 50%);
+}
+
+/* Light Theme Overrides & Adaptations */
+[data-theme="light"],
+.light {
+  & .min-h-screen.bg-\[\#030014\],
+  & .bg-\[\#030014\] {
+    background-color: #f8fafc !important;
+  }
+
+  & .bg-\[\#030014\]\/80 {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  & .bg-\[\#030014\]\/90 {
+    background-color: rgba(248, 250, 252, 0.95) !important;
+  }
+
+  & .text-white:not(.bg-gradient-to-r *):not(.bg-gradient-to-tr *):not(button.bg-gradient-to-r):not(button.bg-gradient-to-r *):not(.text-gradient-purple-blue):not(.text-gradient-electric):not(.text-gradient-emerald):not(svg.text-white) {
+    color: #0f172a;
+  }
+
+  & .text-gray-100 {
+    color: #0f172a !important;
+  }
+
+  & .text-gray-200 {
+    color: #1e293b !important;
+  }
+
+  & .text-gray-300 {
+    color: #334155 !important;
+  }
+
+  & .text-gray-400 {
+    color: #64748b !important;
+  }
+
+  & .text-transparent {
+    color: transparent !important;
+  }
+
+  & .border-white\/10 {
+    border-color: rgba(203, 213, 225, 0.8) !important;
+  }
+
+  & .border-white\/5 {
+    border-color: rgba(226, 232, 240, 0.8) !important;
+  }
+
+  & .bg-white\/5 {
+    background-color: rgba(241, 245, 249, 0.8) !important;
+  }
+
+  & .hover\:bg-white\/5:hover {
+    background-color: rgba(226, 232, 240, 0.9) !important;
+  }
+
+  & .hover\:bg-white\/10:hover {
+    background-color: rgba(203, 213, 225, 0.8) !important;
+  }
+
+  & input.bg-\[\#030014\],
+  & textarea.bg-\[\#030014\],
+  & select.bg-\[\#030014\],
+  & input.bg-\[\#030014\]\/80,
+  & textarea.bg-\[\#030014\]\/80,
+  & select.bg-\[\#030014\]\/80 {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+  }
+
+  & .radial-glow-purple,
+  & .radial-glow-blue,
+  & .radial-glow-cyan {
+    opacity: 0.12 !important;
+  }
 }

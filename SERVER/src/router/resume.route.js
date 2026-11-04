@@ -6,9 +6,27 @@ import Resume from "../models/resume.model.js";
 import { AuthProtect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
-const upload = multer({ storage: multer.memoryStorage() });
 
-router.post("/upload", AuthProtect, upload.single("resume"), async (req, res) => {
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB file limit
+});
+
+// Wrapper to handle multer errors before auth checks
+const handleUpload = (req, res, next) => {
+  upload.single("resume")(req, res, (err) => {
+    if (err) {
+      if (err instanceof multer.MulterError && err.code === "LIMIT_FILE_SIZE") {
+        return res.status(400).json({ message: "Resume file exceeds 10MB limit" });
+      }
+      return res.status(400).json({ message: err.message || "File upload error" });
+    }
+    next();
+  });
+};
+
+// Drain/parse the multipart stream first with handleUpload, then check AuthProtect
+router.post("/upload", handleUpload, AuthProtect, async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: "Resume file is required" });
@@ -27,7 +45,7 @@ router.post("/upload", AuthProtect, upload.single("resume"), async (req, res) =>
         const score = matchResult?.match_score || 0;
         const savedRecord = await Resume.create({
           userId,
-          jobDescription,
+          jobDescription: jobDescription.trim() || "General Resume Analysis",
           candidateName: parsedResume.name || "",
           experience: parsedResume.experience || [],
           projects: parsedResume.projects || [],
@@ -49,15 +67,13 @@ router.post("/upload", AuthProtect, upload.single("resume"), async (req, res) =>
       }
     }
 
-
-
     return res.json({
       parsedResume,
       matchResult,
       savedRecordId,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Resume route error:", error);
     return res.status(500).json({
       message: "Resume processing failed",
       error: error.message,

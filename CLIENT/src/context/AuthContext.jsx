@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import api from '../config/ApiConfig';
 
 const AuthContext = createContext();
@@ -17,7 +17,11 @@ export const AuthProvider = ({ children }) => {
     const storedToken = localStorage.getItem('token');
 
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        localStorage.removeItem('user');
+      }
     }
 
     if (storedToken) {
@@ -25,6 +29,21 @@ export const AuthProvider = ({ children }) => {
     }
 
     setLoading(false);
+  }, []);
+
+  // Listen for global session expiration events
+  useEffect(() => {
+    const handleSessionExpired = () => {
+      setUser(null);
+      setToken(null);
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+    };
+
+    window.addEventListener('auth:session-expired', handleSessionExpired);
+    return () => {
+      window.removeEventListener('auth:session-expired', handleSessionExpired);
+    };
   }, []);
 
   const register = async (userData) => {
