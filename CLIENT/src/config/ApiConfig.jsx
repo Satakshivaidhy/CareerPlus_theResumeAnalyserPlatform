@@ -1,8 +1,28 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+const getBaseURL = () => {
+  const envUrl =
+    import.meta.env.VITE_API_URL ||
+    import.meta.env.VITE_BACKEND_URL ||
+    import.meta.env.VITE_BACKEND_API_URL ||
+    import.meta.env.Backend_API_URL;
+
+  if (envUrl && typeof envUrl === 'string') {
+    const trimmed = envUrl.trim().replace(/\/+$/, '');
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+  }
+
+  // In production builds, default directly to the live Render backend
+  if (import.meta.env.PROD) {
+    return 'https://careerplus-theresumeanalyserplatform-1.onrender.com/api';
+  }
+
+  return 'http://localhost:4500/api';
+};
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:4500/api',
+  baseURL: getBaseURL(),
   withCredentials: true,
 });
 
