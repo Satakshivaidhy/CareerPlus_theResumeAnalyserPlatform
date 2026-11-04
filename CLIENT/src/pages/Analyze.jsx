@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FiUploadCloud, FiFileText, FiCpu, FiCheckCircle, FiAlertTriangle, FiArrowRight, FiTrash2, FiX } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import api from '../config/ApiConfig';
-import html2pdf from 'html2pdf.js';
 
 // Helper to dynamically load pdf.js from CDN
 const loadPdfJs = async () => {

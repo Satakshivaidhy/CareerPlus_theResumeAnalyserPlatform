@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiTrendingUp, FiVideo, FiCheckCircle, FiAlertTriangle, FiCpu, FiMessageSquare, FiMic, FiArrowRight, FiSliders, FiUsers, FiTarget } from 'react-icons/fi';
+import { FiTrendingUp, FiVideo, FiCpu, FiArrowRight, FiSliders,  } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -47,7 +47,7 @@ const Home = () => {
     };
 
     setSimAnswers(prev => [...prev, userMsg]);
-    const answer = simAnswerText;
+    
     setSimAnswerText('');
     setSimCoachThinking(true);
 

@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
 import {
-  FiMessageSquare, FiMic, FiMicOff, FiSend, FiAward, FiSettings,
-  FiCheck, FiVideo, FiCornerDownRight, FiVolume2, FiAlertCircle,
-  FiTrendingUp, FiArrowLeft, FiCheckCircle, FiClock, FiX, FiBarChart2
+  FiMessageSquare, FiMic, FiMicOff, FiSend, FiAward, 
+  FiVideo, FiCornerDownRight, FiVolume2, FiAlertCircle,
+  FiTrendingUp, FiArrowLeft, FiCheckCircle, FiX, FiBarChart2
 } from 'react-icons/fi';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import Navbar from '../components/Navbar';
@@ -11,13 +10,11 @@ import Footer from '../components/Footer';
 import api from '../config/ApiConfig';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
-import html2pdf from 'html2pdf.js';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 const Interview = () => {
-  const navigate = useNavigate();
-  const { user } = useAuth();
+    const { user } = useAuth();
 
   // View control: 'lobby' | 'chat' | 'report' | 'history'
   const [view, setView] = useState('lobby');
@@ -96,7 +93,7 @@ const Interview = () => {
   // Sync ref with live view state
   useEffect(() => {
     viewRef.current = view;
-  }, [view]);
+  }, [view, interviewMode]);
 
   const requestFullScreen = async () => {
     try {
@@ -156,7 +153,7 @@ const Interview = () => {
       document.removeEventListener("webkitfullscreenchange", handleFullScreenChange);
       document.removeEventListener("msfullscreenchange", handleFullScreenChange);
     };
-  }, [view]);
+  }, [view, interviewMode]);
 
   // Rotate loader messages during initial session creation
   useEffect(() => {
@@ -168,7 +165,7 @@ const Interview = () => {
       }, 1400);
     }
     return () => clearInterval(interval);
-  }, [loading, view]);
+  }, [loading, view, loaderMessages.length]);
 
   // Auto-scroll chat history to the bottom without page-level scroll
   useEffect(() => {
@@ -249,8 +246,8 @@ const Interview = () => {
   useEffect(() => {
     if (view !== 'chat' || interviewMode !== 'video') {
       if (proctorIntervalRef.current) clearInterval(proctorIntervalRef.current);
-      if (videoRef.current && videoRef.current.srcObject) {
-        videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+      if (currentVideo && currentVideo.srcObject) {
+        currentVideo.srcObject.getTracks().forEach(track => track.stop());
       }
       return;
     }
@@ -322,7 +319,7 @@ const Interview = () => {
                 if (detections && detections.length > 1) {
                   newWarning = `Multiple faces detected (${detections.length} faces)!`;
                 }
-              } catch (e) {}
+              } catch { /* ignore */ }
             }
           } catch (detErr) {
             console.error("Proctoring detection frame error:", detErr.message);
@@ -357,15 +354,16 @@ const Interview = () => {
     };
 
     setupProctoring();
+    const currentVideo = videoRef.current;
 
     return () => {
       isMounted = false;
       if (proctorIntervalRef.current) clearInterval(proctorIntervalRef.current);
-      if (videoRef.current && videoRef.current.srcObject) {
-        videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+      if (currentVideo && currentVideo.srcObject) {
+        currentVideo.srcObject.getTracks().forEach(track => track.stop());
       }
     };
-  }, [view]);
+  }, [view, interviewMode]);
 
   const startListening = () => {
     if (!recognitionRef.current) return;
@@ -1015,8 +1013,8 @@ const Interview = () => {
                             <ReactMarkdown
                               remarkPlugins={[remarkGfm]}
                               components={{
-                                code({node, inline, className, children, ...props}) {
-                                  const match = /language-(\w+)/.exec(className || '');
+                                code({_node, inline, className, children, ...props}) {
+                                  
                                   return !inline ? (
                                     <pre className="bg-[#0a0718] p-3 rounded-lg overflow-x-auto border border-white/10 my-3 font-mono text-xs">
                                       <code className={className} {...props}>
@@ -1711,7 +1709,7 @@ const Interview = () => {
                     <div className="w-full h-72">
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart
-                          data={historyData.map((session, index) => ({
+                          data={historyData.map((session) => ({
                             name: new Date(session.completedAt || session.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' }),
                             Score: session.overallScore
                           }))}
@@ -1757,7 +1755,7 @@ const Interview = () => {
                                     setSessionReport(res.data.session);
                                     setView('report');
                                   }
-                                } catch (e) {
+                                } catch {
                                   toast.error("Failed to load session report");
                                 } finally {
                                   setLoading(false);

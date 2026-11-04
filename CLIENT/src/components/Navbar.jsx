@@ -3,12 +3,15 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { FiTrendingUp, FiVideo, FiMenu, FiX, FiGrid, FiLogOut } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import ThemeSwitcher from './ThemeSwitcher';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isActive = (path) => location.pathname === path;
@@ -30,11 +33,13 @@ const Navbar = () => {
               whileTap={{ scale: 0.98 }}
               className="flex items-center gap-2.5 font-extrabold text-xl tracking-tight text-slate-900 dark:text-white group cursor-pointer bg-transparent border-none p-0 focus:outline-none"
             >
-              <img
-                src="/logo_transparent.png"
-                alt="PrepMatrix Logo"
-                className="w-9 h-9 object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-md"
-              />
+              <div className="relative w-9 h-9 flex items-center justify-center shrink-0">
+                <img
+                  src={isDark ? "/logo.png" : "/logo_transparent.png"}
+                  alt="PrepMatrix Logo"
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-md"
+                />
+              </div>
               <span className="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white">
                 Prep<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-400">Matrix</span>
               </span>
